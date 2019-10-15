@@ -48,3 +48,9 @@ variable "rest_domain" {
   type        = "string"
   description = "the rest domain name"
 }
+
+variable "enable_graphql_to_rest" {
+  type        = bool
+  default     = false
+  description = "whether a graphql to api behavior should be added to cloudfront"
+}

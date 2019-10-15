@@ -115,6 +115,37 @@ resource "aws_cloudfront_distribution" "main" {
     cached_methods  = ["HEAD", "GET"]
 
   }
+
+  dynamic ordered_cache_behavior {
+    for_each = var.enable_graphql_to_rest ? [true] : []
+
+    content {
+      path_pattern     = "/graphql"
+      target_origin_id = local.rest_origin_id
+
+      viewer_protocol_policy = "redirect-to-https"
+
+      default_ttl = 0
+      min_ttl     = 0
+      max_ttl     = 0
+
+      compress         = false
+      smooth_streaming = false
+
+      forwarded_values {
+        query_string = true
+        cookies {
+          forward = "all"
+        }
+
+        headers                 = ["*"]
+        query_string_cache_keys = []
+      }
+
+      allowed_methods = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+      cached_methods  = ["HEAD", "GET"]
+    }
+  }
 }
 
 resource "aws_cloudfront_origin_access_identity" "main_origin_access_identity" {
