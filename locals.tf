@@ -3,7 +3,7 @@ locals {
 
   # S3 VARIABLES
   # the bucket where the front-end is deployed
-  s3_site_bucket_name = "${var.app_id}-front-end"
+  s3_site_bucket_name = "${var.app_id}-front-end--us-1"
 
 
   rest_origin_id = "${var.app_id}-api"
