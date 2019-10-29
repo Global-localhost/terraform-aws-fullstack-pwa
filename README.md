@@ -23,7 +23,7 @@ module "ied-fullstack-pwa" {
   domains           = var.domains[var.stage]
   alternate_domains = local.alternate_domains
 
-  rest_domain = var.rest_domains[var.stage]
+  api_domain = var.api_domains[var.stage]
 
   certificate_domain = var.certificate_domain[var.stage]
 }

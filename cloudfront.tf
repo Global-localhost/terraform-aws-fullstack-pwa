@@ -23,13 +23,13 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   # Route53 requires Alias/CNAME to be setup
-  aliases = concat(var.domains, var.alternate_domains, [var.rest_domain])
+  aliases = concat(var.domains, var.alternate_domains, [var.api_domain])
 
   dynamic origin {
-    for_each = var.rest_domain == "" ? [] : [true]
+    for_each = var.api_domain == "" ? [] : [true]
 
     content {
-      domain_name = var.rest_domain
+      domain_name = var.api_domain
       origin_id   = local.rest_origin_id
 
       custom_origin_config {
@@ -93,7 +93,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   dynamic ordered_cache_behavior {
-    for_each = var.rest_domain == "" ? [] : [true]
+    for_each = var.api_domain == "" ? [] : [true]
 
     content {
       path_pattern     = "/api/*"
@@ -125,7 +125,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   dynamic ordered_cache_behavior {
-    for_each = length(var.redirect_to_api) > 0 && var.rest_domain != "" ? var.redirect_to_api : []
+    for_each = length(var.redirect_to_api) > 0 && var.api_domain != "" ? var.redirect_to_api : []
 
     content {
       path_pattern     = ordered_cache_behavior.value

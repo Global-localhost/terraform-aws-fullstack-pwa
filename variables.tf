@@ -44,10 +44,10 @@ variable "alternate_domains" {
   description = "a list of domain pointing to the cloud front instance (e.g., myapp.mydomain.fr)"
 }
 
-variable "rest_domain" {
+variable "api_domain" {
   type        = "string"
   default     = ""
-  description = "the rest domain name"
+  description = "the api domain name"
 }
 
 variable "redirect_to_api" {
