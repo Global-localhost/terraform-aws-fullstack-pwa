@@ -55,3 +55,9 @@ variable "enable_graphql_to_rest" {
   default     = false
   description = "whether a graphql to api behavior should be added to cloudfront"
 }
+
+variable "bucket_name" {
+  type        = "string"
+  default     = ""
+  description = "optionnal bucket name"
+}
