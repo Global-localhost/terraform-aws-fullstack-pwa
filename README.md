@@ -25,6 +25,8 @@ module "ied-fullstack-pwa" {
 
   api_domain = var.api_domains[var.stage]
 
+  redirect_to_api = ["/graphql"]
+
   certificate_domain = var.certificate_domain[var.stage]
 }
 ```
