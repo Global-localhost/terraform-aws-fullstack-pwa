@@ -125,7 +125,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   dynamic ordered_cache_behavior {
-    for_each = var.enable_graphql_to_rest ? [true] : []
+    for_each = var.enable_graphql_to_rest && var.rest_domain != "" ? [true] : []
 
     content {
       path_pattern     = "/graphql"
