@@ -125,10 +125,10 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   dynamic ordered_cache_behavior {
-    for_each = var.enable_graphql_to_rest && var.rest_domain != "" ? [true] : []
+    for_each = length(var.redirect_to_api) > 0 && var.rest_domain != "" ? var.redirect_to_api : []
 
     content {
-      path_pattern     = "/graphql"
+      path_pattern     = ordered_cache_behavior.value
       target_origin_id = local.rest_origin_id
 
       viewer_protocol_policy = "redirect-to-https"

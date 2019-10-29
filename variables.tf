@@ -50,10 +50,10 @@ variable "rest_domain" {
   description = "the rest domain name"
 }
 
-variable "enable_graphql_to_rest" {
-  type        = bool
-  default     = false
-  description = "whether a graphql to api behavior should be added to cloudfront"
+variable "redirect_to_api" {
+  type        = list(string)
+  default     = []
+  description = "creates new cloudfront behaviors pointing to the rest api origin-id"
 }
 
 variable "bucket_name" {
