@@ -30,7 +30,7 @@ resource "aws_cloudfront_distribution" "main" {
 
     content {
       domain_name = var.api_domain
-      origin_id   = local.rest_origin_id
+      origin_id   = local.api_origin_id
 
       custom_origin_config {
         http_port                = 80
@@ -97,7 +97,7 @@ resource "aws_cloudfront_distribution" "main" {
 
     content {
       path_pattern     = "/api/*"
-      target_origin_id = local.rest_origin_id
+      target_origin_id = local.api_origin_id
 
       viewer_protocol_policy = "redirect-to-https"
 
@@ -129,7 +129,7 @@ resource "aws_cloudfront_distribution" "main" {
 
     content {
       path_pattern     = ordered_cache_behavior.value
-      target_origin_id = local.rest_origin_id
+      target_origin_id = local.api_origin_id
 
       viewer_protocol_policy = "redirect-to-https"
 
