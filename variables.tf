@@ -59,5 +59,5 @@ variable "enable_graphql_to_rest" {
 variable "bucket_name" {
   type        = "string"
   default     = ""
-  description = "optionnal bucket name"
+  description = "optional bucket name"
 }
