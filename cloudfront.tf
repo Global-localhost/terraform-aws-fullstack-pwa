@@ -25,17 +25,21 @@ resource "aws_cloudfront_distribution" "main" {
   # Route53 requires Alias/CNAME to be setup
   aliases = concat(var.domains, var.alternate_domains, [var.rest_domain])
 
-  origin {
-    domain_name = var.rest_domain
-    origin_id   = local.rest_origin_id
+  dynamic origin {
+    for_each = var.rest_domain == "" ? [] : [true]
 
-    custom_origin_config {
-      http_port                = 80
-      https_port               = 443
-      origin_protocol_policy   = "match-viewer"
-      origin_ssl_protocols     = ["TLSv1.2"]
-      origin_read_timeout      = 30
-      origin_keepalive_timeout = 5
+    content {
+      domain_name = var.rest_domain
+      origin_id   = local.rest_origin_id
+
+      custom_origin_config {
+        http_port                = 80
+        https_port               = 443
+        origin_protocol_policy   = "match-viewer"
+        origin_ssl_protocols     = ["TLSv1.2"]
+        origin_read_timeout      = 30
+        origin_keepalive_timeout = 5
+      }
     }
   }
 
@@ -88,36 +92,40 @@ resource "aws_cloudfront_distribution" "main" {
     }
   }
 
-  ordered_cache_behavior {
-    path_pattern     = "/api/*"
-    target_origin_id = local.rest_origin_id
+  dynamic ordered_cache_behavior {
+    for_each = var.rest_domain == "" ? [] : [true]
 
-    viewer_protocol_policy = "redirect-to-https"
+    content {
+      path_pattern     = "/api/*"
+      target_origin_id = local.rest_origin_id
 
-    default_ttl = 0
-    min_ttl     = 0
-    max_ttl     = 0
+      viewer_protocol_policy = "redirect-to-https"
 
-    compress         = false
-    smooth_streaming = false
+      default_ttl = 0
+      min_ttl     = 0
+      max_ttl     = 0
 
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
+      compress         = false
+      smooth_streaming = false
+
+      forwarded_values {
+        query_string = true
+        cookies {
+          forward = "all"
+        }
+
+        headers                 = ["*"]
+        query_string_cache_keys = []
       }
 
-      headers                 = ["*"]
-      query_string_cache_keys = []
+      allowed_methods = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
+      cached_methods  = ["HEAD", "GET"]
     }
-
-    allowed_methods = ["HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"]
-    cached_methods  = ["HEAD", "GET"]
 
   }
 
   dynamic ordered_cache_behavior {
-    for_each = var.enable_graphql_to_rest ? [true] : []
+    for_each = var.enable_graphql_to_rest && var.rest_domain != "" ? [true] : []
 
     content {
       path_pattern     = "/graphql"

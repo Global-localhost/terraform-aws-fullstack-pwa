@@ -46,6 +46,7 @@ variable "alternate_domains" {
 
 variable "rest_domain" {
   type        = "string"
+  default     = ""
   description = "the rest domain name"
 }
 
