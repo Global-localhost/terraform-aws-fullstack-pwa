@@ -6,7 +6,7 @@ locals {
   s3_site_bucket_name = var.bucket_name == "" ? "${var.app_id}-front-end--us-1" : var.bucket_name
 
 
-  rest_origin_id = "${var.app_id}-api"
+  api_origin_id = "${var.app_id}-api"
 
   ## SITE ORIGIN
   site_origin_id = "${var.app_id}-site"
