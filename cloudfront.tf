@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   # Route53 requires Alias/CNAME to be setup
-  aliases = concat(var.domains, var.alternate_domains, [var.api_domain])
+  aliases = concat(var.domains, var.alternate_domains, var.api_domain == "" ? [] : [var.api_domain])
 
   dynamic origin {
     for_each = var.api_domain == "" ? [] : [true]
