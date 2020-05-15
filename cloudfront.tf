@@ -91,10 +91,14 @@ resource "aws_cloudfront_distribution" "main" {
       include_body = false
     }
 
-    lambda_function_association {
-      event_type   = "viewer-request"
-      lambda_arn   = data.aws_lambda_function.redirectDK.qualified_arn
-      include_body = false
+    dynamic lambda_function_association {
+      for_each = var.redirect_dk == "" ? [] : [true]
+
+      content {
+        event_type   = "viewer-request"
+        lambda_arn   = data.aws_lambda_function.redirectDK.qualified_arn
+        include_body = false
+      }
     }
   }
 
