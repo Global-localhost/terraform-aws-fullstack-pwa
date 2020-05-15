@@ -90,6 +90,12 @@ resource "aws_cloudfront_distribution" "main" {
       lambda_arn   = data.aws_lambda_function.custom_headers.qualified_arn
       include_body = false
     }
+
+    lambda_function_association {
+      event_type   = "viewer-request"
+      lambda_arn   = data.aws_lambda_function.redirectDK.qualified_arn
+      include_body = false
+    }
   }
 
   dynamic ordered_cache_behavior {
