@@ -65,7 +65,7 @@ variable "bucket_name" {
 
 
 variable "redirect_dk" {
-  type        = "boolean"
+  type        = bool
   default     = false
   description = "whether dk request should be redirected to direct domain"
 }

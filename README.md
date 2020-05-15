@@ -7,7 +7,7 @@ terraform module for deploying a fullstack progressive web app (cloudfront, rout
 ```hcl
 module "ied-fullstack-pwa" {
   source  = "app.terraform.io/ied/fullstack-pwa/aws"
-  version = "~>1.0.1"
+  version = "~>2.0.2"
 
   providers = {
     aws            = "aws"
@@ -23,7 +23,7 @@ module "ied-fullstack-pwa" {
   domains           = var.domains[var.stage]
   alternate_domains = local.alternate_domains
 
-  api_domain = var.api_domains[var.stage]
+  api_domain = var.rest_domains[var.stage]
 
   redirect_to_api = ["/graphql"]
 
