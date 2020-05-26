@@ -23,7 +23,7 @@ resource "aws_cloudfront_distribution" "main" {
   }
 
   # Route53 requires Alias/CNAME to be setup
-  aliases = concat(var.domains, var.alternate_domains, [var.api_domain])
+  aliases = concat(var.domains, var.alternate_domains, var.api_domain == "" ? [] : [var.api_domain])
 
   dynamic origin {
     for_each = var.api_domain == "" ? [] : [true]
@@ -89,6 +89,16 @@ resource "aws_cloudfront_distribution" "main" {
       event_type   = "origin-response"
       lambda_arn   = data.aws_lambda_function.custom_headers.qualified_arn
       include_body = false
+    }
+
+    dynamic lambda_function_association {
+      for_each = var.redirect_dk ? [true] : []
+
+      content {
+        event_type   = "viewer-request"
+        lambda_arn   = data.aws_lambda_function.redirectDK.qualified_arn
+        include_body = false
+      }
     }
   }
 

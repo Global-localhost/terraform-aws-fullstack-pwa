@@ -42,6 +42,7 @@ variable "domains" {
 variable "alternate_domains" {
   type        = "list"
   description = "a list of domain pointing to the cloud front instance (e.g., myapp.mydomain.fr)"
+  default     = []
 }
 
 variable "api_domain" {
@@ -60,4 +61,11 @@ variable "bucket_name" {
   type        = "string"
   default     = ""
   description = "optional bucket name"
+}
+
+
+variable "redirect_dk" {
+  type        = bool
+  default     = false
+  description = "whether dk request should be redirected to direct domain"
 }
