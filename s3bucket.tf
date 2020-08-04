@@ -27,8 +27,7 @@ resource "aws_s3_bucket" "site" {
 
   tags = var.common_tags
 
-  region   = "us-east-1"
-  provider = "aws.n_virginia"
+  provider = aws.n_virginia
 
   force_destroy = true
 
